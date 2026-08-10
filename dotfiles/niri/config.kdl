@@ -1,0 +1,99 @@
+prefer-no-csd
+// --- Monitor Configuration ---
+output "HDMI-A-1" {
+    mode "3840x2160@120.00"
+    scale 2.0
+    position x=0 y=0
+}
+
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
+
+output "eDP-1" {
+    mode "1920x1080@60.00"
+    scale 1.0
+    position x=0 y=1080
+}
+
+// --- Layout Preferences ---
+layout {
+    gaps 12
+    default-column-width { proportion 0.5; }
+    background-color "transparent"
+
+    focus-ring {
+        width 2
+        active-color "cba6f7"
+        inactive-color "#45475a"
+    }
+}
+
+// --- Noctalia Desktop & Wallpaper Shell Integration ---
+layer-rule {
+    match namespace="^noctalia-overview*"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^noctalia-wallpaper*"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+    background-effect { xray false; }
+}
+
+// Allow notification actions and windows from Noctalia
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+// --- Keyboard Shortcuts ---
+binds {
+    //screenshot
+    "Super+Shift+S" { screenshot-screen; }
+
+    // Core Actions
+    "Super+Shift+E" { quit; }
+    "Super+Q" { close-window; }
+    
+    // Launching Your Terminal
+    "Super+T" { spawn "kitty"; }
+    "Super+D" { spawn "fuzzel"; }
+    "Super+B" { spawn "brave"; }
+    "Super+S" { spawn "spotify"; }
+    "Super+N" { spawn "noctalia-shell"; }
+
+    // Navigation (Infinite Horizontal Scrolling)
+    "Super+Left"  { focus-column-left; }
+    "Super+Right" { focus-column-right; }
+    "Super+Down" { focus-window-down; }
+    "Super+Up" { focus-window-up; }
+
+    // Moving Windows
+    "Super+Ctrl+Left"  { move-column-left; }
+    "Super+Ctrl+Right" { move-column-right; }
+    "Super+Ctrl+Up" { move-window-to-workspace-up; }
+    "Super+Ctrl+Down" { move-window-to-workspace-down; }
+    "Super+Equal" { set-column-width "+10%"; }
+    "Super+Minus" { set-column-width "-10%"; }
+    "Super+F" { maximize-column; }
+
+    // Window Stacking Control
+    "Super+BracketLeft" { consume-window-into-column; }
+    "Super+BracketRight" { expel-window-from-column; }
+
+    // Workspace Navigation
+    "Super+Page_Down" { focus-workspace-down; }
+    "Super+Page_Up"   { focus-workspace-up; }
+
+    //Audio keybind
+    "XF86AudioRaiseVolume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    "XF86AudioLowerVolume" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    "XF86AudioMute" { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    "XF86MonBrightnessUp" { spawn "brightnessctl" "set" "5%+"; }
+    "XF86MonBrightnessDown" { spawn "brightnessctl" "set" "5%-"; }
+}
