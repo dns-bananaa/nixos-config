@@ -83,7 +83,7 @@ services.udev.extraRules = ''
     anki-bin
     noctalia-shell
 
-    #your new terminal utilities
+    #your terminal utilities
     fastfetch
     btop
     tty-clock
